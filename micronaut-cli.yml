@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: mn.cities
+---
+testFramework: spock
+sourceLanguage: groovy

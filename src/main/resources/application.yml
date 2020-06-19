@@ -1,0 +1,25 @@
+---
+micronaut:
+  application:
+    name: mn-cities
+
+---
+datasources.default: {}
+---
+datasources:
+  default:
+    driverClassName: org.postgresql.Driver
+    username: ${PGUSER:postgres}
+    password: ${PGPASS:postgres}
+    port: 5432
+    url: jdbc:postgresql://${PGHOST:localhost}/geodata
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+
+

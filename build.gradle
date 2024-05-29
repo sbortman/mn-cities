@@ -1,0 +1,82 @@
+plugins {
+  id( "groovy" )
+  id( "com.github.johnrengelman.shadow" ) version "8.1.1"
+  id( "io.micronaut.application" ) version "4.4.0"
+  id( "io.micronaut.test-resources" ) version "4.4.0"
+  id( "io.micronaut.aot" ) version "4.4.0"
+}
+
+version = "0.1"
+group = "com.maxar"
+
+repositories {
+  mavenLocal()
+  maven { url 'https://repo.osgeo.org/repository/release/' }
+  mavenCentral()
+}
+
+dependencies {
+  compileOnly( "io.micronaut.data:micronaut-data-processor" )
+  implementation( "io.micronaut.data:micronaut-data-hibernate-jpa" )
+  implementation( "io.micronaut.groovy:micronaut-runtime-groovy" )
+  implementation( "io.micronaut.serde:micronaut-serde-jackson" )
+  implementation( "io.micronaut.views:micronaut-views-thymeleaf" )
+  implementation( "io.micronaut.sql:micronaut-jdbc-hikari" )
+  compileOnly( "io.micronaut:micronaut-http-client" )
+  compileOnly( "io.micronaut:micronaut-http-validation" )
+  compileOnly( "io.micronaut.serde:micronaut-serde-processor" )
+  runtimeOnly( "ch.qos.logback:logback-classic" )
+  runtimeOnly( "org.postgresql:postgresql" )
+  runtimeOnly( "org.yaml:snakeyaml" )
+  testImplementation( "io.micronaut:micronaut-http-client" )
+
+  implementation 'org.hibernate.orm:hibernate-spatial:6.4.4.Final'
+
+  // Use the following if only Geometry is needed and all of GeoScript is not
+//    implementation "org.geotools:gt-referencing:30.0"
+//    implementation "org.geotools:gt-main:30.0"
+//    implementation "org.geotools:gt-metadata:30.0"
+//    implementation( "org.geotools:gt-epsg-hsql:30.0" )
+
+  implementation( 'org.geoscript:geoscript-groovy:1.22.0' ) {
+    exclude module: 'gt-imageio-ext-gdal'
+    exclude group: 'org.antlr'
+    exclude module: 'groovy-swing'
+    exclude module: 'groovy-groovysh'
+  }
+}
+
+
+application {
+  mainClass = "com.maxar.Application"
+}
+java {
+  sourceCompatibility = JavaVersion.toVersion( "17" )
+  targetCompatibility = JavaVersion.toVersion( "17" )
+}
+
+
+graalvmNative.toolchainDetection = false
+micronaut {
+  runtime( "netty" )
+  testRuntime( "spock2" )
+  processing {
+    incremental( true )
+    annotations( "com.maxar.*" )
+  }
+  aot {
+    // Please review carefully the optimizations enabled below
+    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+    optimizeServiceLoading = false
+    convertYamlToJava = false
+    precomputeOperations = true
+    cacheEnvironment = true
+    optimizeClassLoading = true
+    deduceEnvironment = true
+    optimizeNetty = true
+    replaceLogbackXml = true
+  }
+}
+
+
+

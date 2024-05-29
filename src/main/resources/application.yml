@@ -1,0 +1,36 @@
+micronaut:
+  application:
+    name: mn-cities
+  router:
+    static-resources:
+      stylesheets:
+        enabled: true
+        mapping: /css/**
+        paths: classpath:public/css
+      javascript:
+        enabled: true
+        mapping: /js/**
+        paths: classpath:public/js
+  server:
+    cors:
+      enabled: true
+
+datasources:
+  default:
+    driver-class-name: org.postgresql.Driver
+    db-type: postgres
+    dialect: POSTGRES
+    jdbc-url: jdbc:postgresql:geodata-dev
+    username: postgres
+    password: postgres
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+#          auto: create-drop
+
+hibernate:
+  dialect: 'org.hibernate.spatial.dialect.postgis.PostgisDialect'

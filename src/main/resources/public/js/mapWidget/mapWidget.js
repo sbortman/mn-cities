@@ -9,7 +9,17 @@ class MapWidget {
             new ol.layer.Tile({
                 source: new ol.source.TileWMS({
                     url: '/wms/getMap',
-                    params: {}
+                    params: {
+                        'LAYERS': 'BORDERS'
+                    }
+                })
+            }),
+            new ol.layer.Tile({
+                source: new ol.source.TileWMS({
+                    url: '/wms/getMap',
+                    params: {
+                        'LAYERS': 'TILE_GRID'
+                    }
                 })
             }),
         ];

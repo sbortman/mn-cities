@@ -78,5 +78,17 @@ micronaut {
   }
 }
 
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
+tasks.withType(ShadowJar) {
+    mergeServiceFiles()
+    setZip64(true)
+    manifest {
+        attributes(
+        'Implementation-Vendor': 'Sun Microsystems, Inc',
+        'Implementation-Title': 'Java Runtime Environment',
+        'Implementation-Version': '17.0.11'
+        )
+    }
+}
 
